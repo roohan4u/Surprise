@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Pragati ❤️</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #fff0f5;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        .container {
+            position: relative;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+        }
+        
+        .page {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            transition: transform 0.6s ease-in-out;
+            padding: 20px;
+            box-sizing: border-box;
+            transform: translateX(100%);
+            background-color: #fff0f5;
+        }
+        
+        .page.active {
+            transform: translateX(0);
+        }
+        
+        .page-content {
+            max-width: 80%;
+            padding: 30px;
+            border-radius: 15px;
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        h1, h2 {
+            color: #ff6b9d;
+            margin-bottom: 15px;
+        }
+        
+        p {
+            color: #333;
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            background-color: #ff6b9d;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+            margin-top: 15px;
+        }
+        
+        .btn:hover {
+            background-color: #ff4785;
+            transform: translateY(-2px);
+        }
+        
+        .hearts {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+        
+        .heart {
+            position: absolute;
+            font-size: 25px;
+            color: #ff6b9d;
+            opacity: 0.5;
+            animation: float 6s infinite;
+        }
+        
+        .image-container {
+            width: 200px;
+            height: 200px;
+            background-color: #ffd1dc;
+            border-radius: 10px;
+            margin: 15px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ff6b9d;
+            font-size: 14px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .envelope {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #ff6b9d;
+            width: 250px;
+            height: 150px;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            z-index: 100;
+            transition: all 0.5s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        
+        .envelope.opened {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(2);
+            pointer-events: none;
+        }
+        
+        .envelope-text {
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(10deg);
+            }
+        }
+        
+        .final-page {
+            background: linear-gradient(to bottom, #ffe6f2, #fff0f5);
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 85%;
+            max-height: 70vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .letter {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            line-height: 1.8;
+            text-align: left;
+            font-size: 16px;
+        }
+        
+        .signature {
+            text-align: right;
+            margin-top: 30px;
+            font-style: italic;
+            color: #ff6b9d;
+        }
+        
+        .progress-bar {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 10;
+        }
+        
+        .progress-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: rgba(255, 107, 157, 0.3);
+            transition: all 0.3s;
+        }
+        
+        .progress-dot.active {
+            background-color: rgba(255, 107, 157, 1);
+            transform: scale(1.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Envelope to start -->
+        <div class="envelope" id="envelope">
+            <div class="envelope-text">Tap to open<br>❤️<br>For Pragati</div>
+        </div>
+        
+        <!-- Page 1 -->
+        <div class="page" id="page1">
+            <div class="hearts"></div>
+            <div class="page-content">
+                <h1>I'm Sorry</h1>
+                <div class="image-container">
+                    <!-- Replace the src with the path to your image -->
+                    <img src="photo1.jpg" alt="Together">
+                </div>
+                <p>Sometimes words aren't enough, but I hope these little notes will show you how much you mean to me.</p>
+                <button class="btn" onclick="nextPage(1)">Touch to continue ❤️</button>
+            </div>
+        </div>
+        
+        <!-- Page 2 -->
+        <div class="page" id="page2">
+            <div class="hearts"></div>
+            <div class="page-content">
+                <h2>The first thing I want you to know...</h2>
+                <div class="image-container">
+                    <!-- Replace the src with the path to your image -->
+                    <img src="photo2.jpg" alt="Cute photo">
+                </div>
+                <p>Is that I love your smile. It lights up my world even on the darkest days.</p>
+                <button class="btn" onclick="nextPage(2)">❤️ Next ❤️</button>
+            </div>
+        </div>
+        
+        <!-- Page 3 -->
+        <div class="page" id="page3">
+            <div class="hearts"></div>
+            <div class="page-content">
+                <h2>I'm sorry I've been busy</h2>
+                <div class="image-container">
+                    <!-- Replace the src with the path to your image -->
+                    <img src="photo3.jpg" alt="Sweet memory">
+                </div>
+                <p>I know I haven't been as present as I should be. Time spent with you is always the best part of my day.</p>
+                <button class="btn" onclick="nextPage(3)">❤️ Continue ❤️</button>
+            </div>
+        </div>
+        
+        <!-- Page 4 -->
+        <div class="page" id="page4">
+            <div class="hearts"></div>
+            <div class="page-content">
+                <h2>You're amazing because...</h2>
+                <div class="image-container">
+                    <!-- Replace the src with the path to your image -->
+                    <img src="photo4.jpg" alt="Favorite photo">
+                </div>
+                <p>You're strong, determined, and incredibly talented. I admire how focused you are on your work and goals.</p>
+                <button class="btn" onclick="nextPage(4)">❤️ More ❤️</button>
+            </div>
+        </div>
+        
+        <!-- Page 5 -->
+        <div class="page" id="page5">
+            <div class="hearts"></div>
+            <div class="page-content">
+                <h2>I want you to know...</h2>
+                <div class="image-container">
+                    <!-- Replace the src with the path to your image -->
+                    <img src="photo5.jpg" alt="Happy memory">
+                </div>
+                <p>Even when we're apart, you're always in my thoughts. Your messages brighten my day.</p>
+                <button class="btn" onclick="nextPage(5)">❤️ Next page ❤️</button>
+            </div>
+        </div>
+        
+        <!-- Page 6 -->
+        <div class="page" id="page6">
+            <div class="hearts"></div>
+            <div class="page-content">
+                <h2>What I love about you...</h2>
+                <div class="image-container">
+                    <!-- Replace the src with the path to your image -->
+                    <img src="photo6.jpg" alt="Sweet photo">
+                </div>
+                <p>Your passion, kindness, and the way you care so deeply about everything you do. You inspire me, Pragati.</p>
+                <button class="btn" onclick="nextPage(6)">❤️ Continue ❤️</button>
+            </div>
+        </div>
+        
+        <!-- Page 7 -->
+        <div class="page" id="page7">
+            <div class="hearts"></div>
+            <div class="page-content">
+                <h2>I miss...</h2>
+                <div class="image-container">
+                    <!-- Replace the src with the path to your image -->
+                    <img src="photo7.jpg" alt="Funny moment">
+                </div>
+                <p>Our laughter, our conversations, and those moments when we just understand each other without saying a word.</p>
+                <button class="btn" onclick="nextPage(7)">❤️ Almost there ❤️</button>
+            </div>
+        </div>
+        
+        <!-- Page 8 -->
+        <div class="page" id="page8">
+            <div class="hearts"></div>
+            <div class="page-content">
+                <h2>I believe in you</h2>
+                <div class="image-container">
+                    <!-- Replace the src with the path to your image -->
+                    <img src="photo8.jpg" alt="Supportive moment">
+                </div>
+                <p>You're capable of achieving anything you set your mind to. Your determination is one of your greatest strengths.</p>
+                <button class="btn" onclick="nextPage(8)">❤️ Keep going ❤️</button>
+            </div>
+        </div>
+        
+        <!-- Page 9 -->
+        <div class="page" id="page9">
+            <div class="hearts"></div>
+            <div class="page-content">
+                <h2>Thank you for...</h2>
+                <div class="image-container">
+                    <!-- Replace the src with the path to your image -->
+                    <img src="photo9.jpg" alt="Meaningful moment">
+                </div>
+                <p>Being patient with me, even when I don't deserve it. Your understanding means the world to me.</p>
+                <button class="btn" onclick="nextPage(9)">❤️ Final message ❤️</button>
+            </div>
+        </div>
+        
+        <!-- Page 10 - Final Letter -->
+        <div class="page" id="page10">
+            <div class="hearts"></div>
+            <div class="final-page">
+                <h1>Dear Pragati</h1>
+                <div class="letter">
+                    <p>I want to say I'm truly sorry for being distant lately. Sometimes I get caught up in things and don't show you the attention and love you deserve.</p>
+                    
+                    <p>I love you for who you are - your strength, your smile, your determination, and how you care for those around you. You're incredible in ways you don't even realize.</p>
+                    
+                    <p>I know you're focused on your work right now, and I'm so proud of you for that. You're amazing at what you do, and I admire your dedication.</p>
+                    
+                    <p>You're capable of achieving anything on your own - you always have been. Your independence and strength are qualities I've always admired about you.</p>
+                    
+                    <p>I just want you to know that you're loved, appreciated, and that I'm sorry for the times I've been distant.</p>
+                    
+                    <p>Thank you for being you, Pragati. You make my life better just by being in it.</p>
+                    
+                    <div class="signature">With love and apologies ❤️</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Progress bar dots -->
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <script>
+        // Create hearts for background
+        function createHearts() {
+            const heartsContainers = document.querySelectorAll('.hearts');
+            
+            heartsContainers.forEach(container => {
+                for (let i = 0; i < 15; i++) {
+                    const heart = document.createElement('div');
+                    heart.classList.add('heart');
+                    heart.innerHTML = '❤️';
+                    heart.style.left = Math.random() * 100 + '%';
+                    heart.style.top = Math.random() * 100 + '%';
+                    heart.style.animationDelay = Math.random() * 5 + 's';
+                    heart.style.fontSize = Math.random() * 15 + 15 + 'px';
+                    heart.style.opacity = Math.random() * 0.5 + 0.2;
+                    container.appendChild(heart);
+                }
+            });
+        }
+
+        // Create progress dots
+        function createProgressDots() {
+            const progressBar = document.getElementById('progressBar');
+            for (let i = 1; i <= 10; i++) {
+                const dot = document.createElement('div');
+                dot.classList.add('progress-dot');
+                if (i === 1) dot.classList.add('active');
+                progressBar.appendChild(dot);
+            }
+        }
+
+        // Initialize
+        let currentPage = 0;
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            createHearts();
+            createProgressDots();
+            
+            document.getElementById('envelope').addEventListener('click', function() {
+                this.classList.add('opened');
+                setTimeout(() => {
+                    document.getElementById('page1').classList.add('active');
+                    currentPage = 1;
+                    updateProgressDots();
+                }, 500);
+            });
+        });
+        
+        function nextPage(pageNum) {
+            const currentPageElem = document.getElementById('page' + pageNum);
+            const nextPageElem = document.getElementById('page' + (pageNum + 1));
+            
+            currentPageElem.style.transform = 'translateX(-100%)';
+            nextPageElem.classList.add('active');
+            
+            currentPage = pageNum + 1;
+            updateProgressDots();
+        }
+        
+        function updateProgressDots() {
+            const dots = document.querySelectorAll('.progress-dot');
+            dots.forEach((dot, index) => {
+                if (index < currentPage) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
